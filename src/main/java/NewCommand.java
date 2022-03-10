@@ -3,7 +3,7 @@ import picocli.CommandLine.Command;
 @Command(
         name = "new"
 )
-public class newCommand implements Runnable{
+public class NewCommand implements Runnable{
     @Override
     public void run() {
         System.out.println("new");
