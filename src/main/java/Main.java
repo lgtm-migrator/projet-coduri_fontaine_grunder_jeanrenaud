@@ -5,6 +5,7 @@ import picocli.CommandLine;
         subcommands = {
                 NewCommand.class,
                 CleanCommand.class,
+                BuildCommand.class,
         },
         description = "Application DIL Labo 1")
 public class Main implements Runnable{
