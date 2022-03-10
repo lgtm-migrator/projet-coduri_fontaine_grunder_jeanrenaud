@@ -1,6 +1,11 @@
 import picocli.CommandLine;
 
-@CommandLine.Command(name = "dillab1", subcommands = { NewCommand.class },
+@CommandLine.Command(
+        name = "dillab1",
+        subcommands = {
+                NewCommand.class,
+                CleanCommand.class,
+        },
         description = "Application DIL Labo 1")
 public class Main implements Runnable{
     @CommandLine.Spec
