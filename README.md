@@ -35,10 +35,11 @@ Ce laboratoire à pour objectif d'entrainer la méthodologie à appliquer dans u
 * Créer des pull requests lorsque votre issue est résolue.
   * Un de vos collègue devra faire une review votre PR (pull request) et faire des remarques constructives au besoin.
   * Si la PR a été acceptée par votre collègue, vous devrez la merger dans la branche main.
+## [License Apache 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
-## License
-[Apache 2.0](https://choosealicense.com/licenses/apache-2.0/)
+## [Code de conduite](CODE_OF_CONDUCT.md)
 
+## [Porfolio](https://docs.google.com/document/d/1ma4DtP58aYvNaCOSFSOzSmjbmZ5aXtBLXJ-PQsJb1zY/edit?usp=sharing)
 # Authors
 * Coduri Luca
 * Fontaine Chloö
