@@ -8,6 +8,11 @@ import picocli.CommandLine;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * This class shows the version of the program in the command line.
+ * @author Luca COduri
+ * @version 1.0
+ */
 @CommandLine.Command(
         name = "version",
         aliases = {"v"}
@@ -16,7 +21,7 @@ public class VersionCommand implements Runnable {
     @Override
     public void run() {
         MavenXpp3Reader reader = new MavenXpp3Reader();
-        Model model = null;
+        Model model;
         try {
             model = reader.read(new FileReader("pom.xml"));
         } catch (IOException | XmlPullParserException e) {
