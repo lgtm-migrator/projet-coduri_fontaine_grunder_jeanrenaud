@@ -1,4 +1,5 @@
 import commands.*;
+import init.InitCommand;
 import picocli.CommandLine;
 
 @CommandLine.Command(
@@ -8,7 +9,8 @@ import picocli.CommandLine;
                 CleanCommand.class,
                 BuildCommand.class,
                 ServeCommand.class,
-                VersionCommand.class
+                VersionCommand.class,
+                InitCommand.class,
         },
         description = "Application DIL Labo 1")
 public class Main implements Runnable{
