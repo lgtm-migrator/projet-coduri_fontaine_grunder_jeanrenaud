@@ -1,3 +1,4 @@
+import commands.*;
 import init.InitCommand;
 import picocli.CommandLine;
 
@@ -8,6 +9,7 @@ import picocli.CommandLine;
                 CleanCommand.class,
                 BuildCommand.class,
                 ServeCommand.class,
+                VersionCommand.class,
                 InitCommand.class,
         },
         description = "Application DIL Labo 1")
