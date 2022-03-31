@@ -1,10 +1,15 @@
 import picocli.CommandLine;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import org.apache.commons.io.FileUtils;
 
+/**
+ * Command that clean the given directory by deleting the build directory.
+ *
+ * @author Chloé Fontaine
+ * @version 1.0
+ */
 @CommandLine.Command (
         name = "clean",
         description = "Deletes build directory at the given path."
