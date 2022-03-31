@@ -6,10 +6,13 @@ import java.nio.file.Path;
 import org.apache.commons.io.FileUtils;
 
 @CommandLine.Command (
-        name = "clean"
+        name = "clean",
+        description = "Deletes build directory at the given path."
 )
 public class CleanCommand implements Runnable {
-    @CommandLine.Parameters
+    @CommandLine.Parameters(
+            paramLabel = "directory name"
+    )
     private Path directoryName;
 
     @Override
