@@ -1,6 +1,6 @@
 package commands;
 
-import picocli.CommandLine.Command;
+import picocli.CommandLine;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
