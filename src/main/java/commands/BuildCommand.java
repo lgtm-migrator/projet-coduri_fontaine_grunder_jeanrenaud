@@ -1,3 +1,5 @@
+package commands;
+
 import picocli.CommandLine.Command;
 
 @Command (
