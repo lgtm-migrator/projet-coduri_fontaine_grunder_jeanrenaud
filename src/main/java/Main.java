@@ -1,5 +1,4 @@
 import commands.*;
-import init.InitCommand;
 import picocli.CommandLine;
 
 @CommandLine.Command(
