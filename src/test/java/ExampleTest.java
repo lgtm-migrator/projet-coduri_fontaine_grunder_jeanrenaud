@@ -3,6 +3,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class ExampleTest {
+    /**
+     * Test method for github actions.
+     */
     @Test
     public void justAnExample() {
         int test = 0;
