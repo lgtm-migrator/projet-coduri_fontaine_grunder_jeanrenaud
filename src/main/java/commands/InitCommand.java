@@ -17,8 +17,8 @@ public class InitCommand implements Runnable {
     @Parameters(index = "0")
     private Path path;
 
-    private File indexSource  = new File("https://github.com/dil-classroom/projet-coduri_fontaine_grunder_jeanrenaud/blob/2b9283a57c808629f8b6cf10b5074b25df192a3d/init/index.md");
-    private File configSource = new File("https://github.com/dil-classroom/projet-coduri_fontaine_grunder_jeanrenaud/blob/2b9283a57c808629f8b6cf10b5074b25df192a3d/init/config.yaml");
+    private File indexSource  = new File("https://github.com/dil-classroom/projet-coduri_fontaine_grunder_jeanrenaud/blob/main/init/index.md");
+    private File configSource = new File("https://github.com/dil-classroom/projet-coduri_fontaine_grunder_jeanrenaud/blob/main/init/config.yaml");
 
 
     @Override
