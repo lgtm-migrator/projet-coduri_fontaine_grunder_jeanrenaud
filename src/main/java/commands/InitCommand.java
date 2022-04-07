@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Command (  name = "init", mixinStandardHelpOptions = true, version = "init 1.0",
-            description = "Initialize a static website in the designed folder." )
+@Command (name = "init", mixinStandardHelpOptions = true, version = "init 1.0",
+            description = "Initialize a static website in the designed folder.")
 public class InitCommand implements Runnable {
 
     @Parameters(index = "0")
