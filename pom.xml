@@ -48,5 +48,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>4.3.0</version>
+        </dependency>
+
     </dependencies>
 </project>
