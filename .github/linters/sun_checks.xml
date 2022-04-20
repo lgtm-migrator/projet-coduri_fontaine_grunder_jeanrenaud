@@ -46,7 +46,7 @@
   <!-- Excludes all 'module-info.java' files              -->
   <!-- See https://checkstyle.org/config_filefilters.html -->
   <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value="module\-info\.java$"/>
+    <property name="fileNamePattern" value=".*[\\/]src[\\/]test[\\/].*$"/>
   </module>
 
   <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
@@ -167,7 +167,7 @@
     <!-- See https://checkstyle.org/config_coding.html -->
     <module name="EmptyStatement"/>
     <module name="EqualsHashCode"/>
-    <module name="HiddenField"/>
+<!--    <module name="HiddenField"/>-->
     <module name="IllegalInstantiation"/>
     <module name="InnerAssignment"/>
     <module name="MagicNumber"/>
