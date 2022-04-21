@@ -4,7 +4,14 @@ public class Main {
     private String author;
     private String title;
     private String subtitle;
+    private String content;
 
+    /**
+     * Create the main content of the template.
+     * @param author
+     * @param title
+     * @param subtitle
+     */
     public Main(final String author, final String title, final String subtitle) {
         this.author = author;
         this.title = title;
