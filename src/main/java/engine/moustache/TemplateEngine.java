@@ -2,19 +2,20 @@ package engine.moustache;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.io.FileTemplateLoader;
-import com.github.jknack.handlebars.io.TemplateLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * It handles templates and renders them.
+ * @author Luca Coduri
+ */
 public final class TemplateEngine {
     private final Handlebars handlebars;
 
@@ -32,21 +33,21 @@ public final class TemplateEngine {
     }
 
     private TemplateEngine() {
-        TemplateLoader templateLoader = new FileTemplateLoader("templates", ".html");
-        handlebars = new Handlebars(templateLoader);
+        handlebars = new Handlebars();
     }
 
-    String applyMapToTemplate(final Map<String, Object> context) {
+    String applyMapToTemplate(final Map<String, Object> context, final Path templatePath) {
         String templateFile;
         try {
-            templateFile = Files.readString(Paths.get("." + File.separator + "templates" + File.separator + "template.html"));
+            templateFile =
+                    Files.readString(templatePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         templateFile = applyIncludes(templateFile);
         String modified;
         try {
-            Template template = handlebars.compileInline(templateFile); // TODO modifier compile par compileInline
+            Template template = handlebars.compileInline(templateFile);
             modified = template.apply(context);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -79,16 +80,5 @@ public final class TemplateEngine {
         matcher.appendTail(sb);
 
         return sb.toString();
-    }
-
-    public static void main(final String[] args) {
-        System.out.println(new TemplateEngine().applyMapToTemplate(new HashMap<String, Object>() {
-            {
-                put("title", "titre");
-                put("content", "contenu");
-                put("subtitle", "mdr");
-                put("author", "Luca Coduri");
-            }
-        }));
     }
 }
