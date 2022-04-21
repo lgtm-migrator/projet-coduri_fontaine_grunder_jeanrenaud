@@ -6,6 +6,9 @@ import org.commonmark.ext.front.matter.YamlFrontMatterVisitor;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+
+import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
 
 /**
@@ -37,6 +40,23 @@ public final class Markdown2htmlParser {
         List<Extension> extensions = List.of(YamlFrontMatterExtension.create());
         Parser parser = Parser.builder().extensions(extensions).build();
         Node document = parser.parse(markdown);
+
+        final YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
+        document.accept(visitor);
+        HtmlRenderer htmlRenderer = HtmlRenderer.builder().extensions(extensions).build();
+
+        return new ParserResult(htmlRenderer.render(document), visitor.getData());
+    }
+
+    /**
+     * This method is used to parse a markdown Reader into html.
+     * @param markdown the markdown Reader to be parsed.
+     * @return an object containing the parsed markdown string and the headers.
+     */
+    public ParserResult convertMarkdownToHTML(final Reader markdown) throws IOException {
+        List<Extension> extensions = List.of(YamlFrontMatterExtension.create());
+        Parser parser = Parser.builder().extensions(extensions).build();
+        Node document = parser.parseReader(markdown);
 
         final YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
         document.accept(visitor);

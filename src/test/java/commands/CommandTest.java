@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class CommandTest {
+abstract class CommandTest {
     final PrintStream originalOut = System.out;
     final PrintStream originalErr = System.err;
     final ByteArrayOutputStream out = new ByteArrayOutputStream();
