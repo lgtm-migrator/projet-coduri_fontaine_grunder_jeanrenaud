@@ -60,6 +60,10 @@ public class BuildCommand implements Runnable {
         }
     }
 
+    /**
+     * Load the config file into the configModel.
+     * @author Luca Coduri
+     */
     private void loadConfigFile() {
         try (InputStream configFile =
                      new BufferedInputStream(new FileInputStream(folderPath + File.separator + CONFIG_FILE))) {
@@ -70,6 +74,13 @@ public class BuildCommand implements Runnable {
         }
     }
 
+    /**
+     * Parse all markdown files into html files.
+     * @implNote Files that are not markdown files are copied to the build folder.
+     * This method can be faster if the files are copied only once. But it is not.
+     * @param file The folder containing files to parse.
+     * @author Luca Coduri
+     */
     private void parseAndCreateFile(final File file) {
         final Pattern p = Pattern.compile("(\\.[mM][dD])$");
         String relativizedPath =
