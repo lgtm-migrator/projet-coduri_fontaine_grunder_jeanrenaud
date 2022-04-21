@@ -36,7 +36,13 @@ public final class TemplateEngine {
         handlebars = new Handlebars();
     }
 
-    String applyMapToTemplate(final Map<String, Object> context, final Path templatePath) {
+    /**
+     * Render a template with the given parameters.
+     * @param context the parameters to render the template with.
+     * @param templatePath the path to the template to render.
+     * @return the rendered template.
+     */
+    public String applyMapToTemplate(final Map<String, Object> context, final Path templatePath) {
         String templateFile;
         try {
             templateFile =
