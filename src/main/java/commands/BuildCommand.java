@@ -11,6 +11,7 @@ import picocli.CommandLine.Command;
 
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -106,8 +107,7 @@ public class BuildCommand implements Runnable {
             newFile.getParentFile().mkdirs();
             newFile.createNewFile();
 
-            // Write the result to the new file
-            try (FileWriter writer = new FileWriter(newFile)) {
+            try (FileWriter writer = new FileWriter(newFile, StandardCharsets.UTF_8)) {
                 writer.write(output);
             } catch (IOException e) {
                 throw new RuntimeException(e);
