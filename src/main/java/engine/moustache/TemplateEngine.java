@@ -52,7 +52,7 @@ public final class TemplateEngine {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+        System.out.println(modified);
         return modified;
     }
 
@@ -61,7 +61,12 @@ public final class TemplateEngine {
         Pattern includePattern = Pattern.compile("\\{% +include +[^\\s]* +}");
         Matcher matcher = includePattern.matcher(template);
         StringBuilder sb = new StringBuilder();
-        while (matcher.find()) {
+
+        if (!matcher.find()) {
+            return template;
+        }
+        // for each include statement in the template string
+        do {
             Matcher filenameMatcher = filenamePattern.matcher(matcher.group());
             filenameMatcher.find();
             final String filename = filenameMatcher.group();
@@ -76,9 +81,9 @@ public final class TemplateEngine {
                 matcher.appendReplacement(sb, fileToInclude);
             }
 
-        }
+        } while (matcher.find());
         matcher.appendTail(sb);
 
-        return sb.toString();
+        return applyIncludes(sb.toString());
     }
 }
