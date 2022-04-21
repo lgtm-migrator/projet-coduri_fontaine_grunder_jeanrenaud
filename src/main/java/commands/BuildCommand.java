@@ -25,35 +25,31 @@ import static utils.FileExtension.forEachFileInDirectory;
 public class BuildCommand implements Runnable {
     private static final String CONFIG_FILE = "config.yml";
     private File buildFolder;
+    private ConfigModel configModel;
 
     @Parameters(index = "0", description = "The folder to build the website from.")
     private Path folderPath;
 
     @Override
     public void run() {
-        final ConfigModel configModel;
+        if (!folderPath.toFile().exists()) {
+            throw new RuntimeException("The specified folder does not exist.");
+        }
+
         try {
             buildFolder = Files.createTempDirectory("build").toFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-
-        if (!buildFolder.exists()) {
-            buildFolder.mkdir();
+        if (!buildFolder.exists() && !buildFolder.mkdir()) {
+            throw new RuntimeException("Could not create a temp build folder.");
         }
 
-        // Load the config file
-        try (InputStream configFile =
-                     new BufferedInputStream(new FileInputStream(folderPath + File.separator + CONFIG_FILE))) {
-            Yaml yaml = new Yaml(new Constructor(ConfigModel.class));
-            configModel = yaml.load(configFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        loadConfigFile();
 
         // Parse all file in path and sub-folders
-        forEachFileInDirectory(folderPath.toString(), this::parseFile);
+        forEachFileInDirectory(folderPath.toString(), this::parseAndCreateFile);
 
         // Move the temp build folder to the specified folder
         try {
@@ -64,11 +60,22 @@ public class BuildCommand implements Runnable {
         }
     }
 
-    private void parseFile(final File file) {
+    private void loadConfigFile() {
+        try (InputStream configFile =
+                     new BufferedInputStream(new FileInputStream(folderPath + File.separator + CONFIG_FILE))) {
+            Yaml yaml = new Yaml(new Constructor(ConfigModel.class));
+            configModel = yaml.load(configFile);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void parseAndCreateFile(final File file) {
         final Pattern p = Pattern.compile("(\\.[mM][dD])$");
         String relativizedPath =
                 folderPath.toFile().getAbsoluteFile().toURI().relativize(file.getAbsoluteFile().toURI()).getPath();
 
+        // If the file is not a markdown file, copy it to the build folder and return.
         if (!p.matcher(file.getPath()).find()) {
             try {
                 Files.copy(file.toPath().toAbsolutePath(),
@@ -94,11 +101,11 @@ public class BuildCommand implements Runnable {
             try (FileWriter writer = new FileWriter(newFile)) {
                 writer.write(result.getHtml());
             } catch (IOException e) {
-                throw e;
+                throw new RuntimeException(e);
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
     }
