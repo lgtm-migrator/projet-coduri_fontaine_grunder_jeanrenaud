@@ -5,33 +5,57 @@ public class Main {
     private String title;
     private String subtitle;
 
-    public Main(String author, String title, String subtitle) {
+    public Main(final String author, final String title, final String subtitle) {
         this.author = author;
         this.title = title;
         this.subtitle = subtitle;
     }
 
+    /**
+     *
+     * @return the author
+     */
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    /**
+     *
+     * @param author
+     */
+    public void setAuthor(final String author) {
         this.author = author;
     }
 
+    /**
+     *
+     * @return the title
+     */
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    /**
+     *
+     * @param title
+     */
+    public void setTitle(final String title) {
         this.title = title;
     }
 
+    /**
+     *
+     * @return the subtitle
+     */
     public String getSubtitle() {
         return subtitle;
     }
 
-    public void setSubtitle(String subtitle) {
+    /**
+     *
+     * @param subtitle
+     */
+    public void setSubtitle(final String subtitle) {
         this.subtitle = subtitle;
     }
 }
