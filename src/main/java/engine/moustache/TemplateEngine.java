@@ -8,7 +8,7 @@ import engine.moustache.templateTypes.Main;
 import engine.moustache.templateTypes.MainTemplate;
 
 public class TemplateEngine {
-    public TemplateEngine(){
+    public TemplateEngine() {
         TemplateLoader loader = new FileTemplateLoader("templates", ".html");
         Handlebars handlebars = new Handlebars(loader);
         try {
@@ -16,12 +16,12 @@ public class TemplateEngine {
             MainTemplate mainTemplate = template.as(MainTemplate.class);
             System.out.println(template.apply(new Main("Luca Coduri", "My website", "This my beautiful website")));
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new TemplateEngine();
     }
 }
