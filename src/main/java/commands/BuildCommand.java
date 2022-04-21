@@ -1,5 +1,6 @@
 package commands;
 
+import engine.moustache.TemplateEngine;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import parser.ConfigModel;
@@ -12,7 +13,9 @@ import picocli.CommandLine.Command;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 import static utils.FileExtension.copyDirectory;
@@ -105,12 +108,23 @@ public class BuildCommand implements Runnable {
         try (FileReader reader = new FileReader(file)) {
             Markdown2htmlParser parser = Markdown2htmlParser.getInstance();
             ParserResult result = parser.convertMarkdownToHTML(reader);
+
+            String output = TemplateEngine.getInstance().applyMapToTemplate(new HashMap<>() {
+                {
+                    put("site", configModel);
+                    put("page", result.getHeaders());
+                    put("content", result.getHtml());
+                }
+            }, Paths.get("." + File.separator + "templates" + File.separator + "template.html"));
+
+
+
             File newFile = new File(buildFolder.getAbsolutePath() + File.separator + relativizedPath);
             newFile.getParentFile().mkdirs();
             newFile.createNewFile();
 
             try (FileWriter writer = new FileWriter(newFile)) {
-                writer.write(result.getHtml());
+                writer.write(output);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
