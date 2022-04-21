@@ -1,3 +1,4 @@
+package websitebuilder;
 
 import commands.BuildCommand;
 import commands.CleanCommand;
@@ -18,7 +19,7 @@ import picocli.CommandLine;
                 InitCommand.class,
         },
         description = "Application DIL Labo 1")
-public class Main implements Runnable {
+public class App implements Runnable {
     @CommandLine.Spec
     private CommandLine.Model.CommandSpec spec;
 
@@ -27,7 +28,7 @@ public class Main implements Runnable {
      * @param args command line arguments.
      */
     public static void main(final String[] args) {
-        int exitCode = new CommandLine(new Main()).execute(args);
+        int exitCode = new CommandLine(new App()).execute(args);
         System.exit(exitCode);
     }
 
