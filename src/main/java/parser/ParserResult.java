@@ -1,6 +1,6 @@
 package parser;
 
-import java.util.List;
+
 import java.util.Map;
 
 /**
@@ -10,14 +10,14 @@ import java.util.Map;
  */
 public class ParserResult {
     private final String html;
-    private final Map<String, List<String>> headers;
+    private final Map<String, String> headers;
 
     /**
      *
      * @param html Result of the markdown parsing.
      * @param headers Result of the yaml parsing.
      */
-    ParserResult(final String html, final Map<String, List<String>> headers) {
+    ParserResult(final String html, final Map<String, String> headers) {
         assert html != null;
         assert headers != null;
 
@@ -37,7 +37,7 @@ public class ParserResult {
      *
      * @return the headers result of the parsing.
      */
-    public Map<String, List<String>> getHeaders() {
+    public Map<String, String> getHeaders() {
         return headers;
     }
 

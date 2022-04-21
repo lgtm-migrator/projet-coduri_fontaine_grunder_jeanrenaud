@@ -9,7 +9,9 @@ import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is used to parse markdown strings containing headers into html.
@@ -45,7 +47,7 @@ public final class Markdown2htmlParser {
         document.accept(visitor);
         HtmlRenderer htmlRenderer = HtmlRenderer.builder().extensions(extensions).build();
 
-        return new ParserResult(htmlRenderer.render(document), visitor.getData());
+        return new ParserResult(htmlRenderer.render(document), simplifyMap(visitor.getData()));
     }
 
     /**
@@ -54,14 +56,24 @@ public final class Markdown2htmlParser {
      * @return an object containing the parsed markdown string and the headers.
      */
     public ParserResult convertMarkdownToHTML(final Reader markdown) throws IOException {
-        List<Extension> extensions = List.of(YamlFrontMatterExtension.create());
-        Parser parser = Parser.builder().extensions(extensions).build();
-        Node document = parser.parseReader(markdown);
+        final List<Extension> extensions = List.of(YamlFrontMatterExtension.create());
+        final Parser parser = Parser.builder().extensions(extensions).build();
+        final Node document = parser.parseReader(markdown);
 
         final YamlFrontMatterVisitor visitor = new YamlFrontMatterVisitor();
         document.accept(visitor);
-        HtmlRenderer htmlRenderer = HtmlRenderer.builder().extensions(extensions).build();
+        final HtmlRenderer htmlRenderer = HtmlRenderer.builder().extensions(extensions).build();
 
-        return new ParserResult(htmlRenderer.render(document), visitor.getData());
+        return new ParserResult(htmlRenderer.render(document), simplifyMap(visitor.getData()));
+    }
+
+    private Map<String, String> simplifyMap(final Map<String, List<String>> map) {
+        final Map<String, String> newMap = new HashMap<>();
+
+        map.forEach((key, value) -> {
+            newMap.put(key, value.get(0));
+        });
+
+        return newMap;
     }
 }
