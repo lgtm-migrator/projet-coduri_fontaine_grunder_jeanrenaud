@@ -1,6 +1,10 @@
 package utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.function.Consumer;
 
 public final class FileExtension {
@@ -23,5 +27,25 @@ public final class FileExtension {
                 forEachFileInDirectory(file.getAbsolutePath(), consumer);
             }
         }
+    }
+
+    /**
+     * Copy the file to the destination directory.
+     * @param sourceDirectoryLocation
+     * @param destinationDirectoryLocation
+     * @throws IOException
+     */
+    public static void copyDirectory(final String sourceDirectoryLocation, final String destinationDirectoryLocation)
+            throws IOException {
+        Files.walk(Paths.get(sourceDirectoryLocation))
+                .forEach(source -> {
+                    Path destination = Paths.get(destinationDirectoryLocation, source.toString()
+                            .substring(sourceDirectoryLocation.length()));
+                    try {
+                        Files.copy(source, destination);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 }

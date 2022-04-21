@@ -10,9 +10,13 @@ import picocli.CommandLine.Command;
 
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
+import static utils.FileExtension.copyDirectory;
 import static utils.FileExtension.forEachFileInDirectory;
 
 @Command (
@@ -21,7 +25,7 @@ import static utils.FileExtension.forEachFileInDirectory;
 )
 public class BuildCommand implements Runnable {
     private static final String CONFIG_FILE = "config.yml";
-    private static final File BUILD_FOLDER = new File("." + File.separator + "build");
+    private File buildFolder;
 
     @Parameters(index = "0", description = "The folder to build the website from.")
     private Path folderPath;
@@ -29,9 +33,15 @@ public class BuildCommand implements Runnable {
     @Override
     public void run() {
         final ConfigModel configModel;
+        try {
+            buildFolder = Files.createTempDirectory("build").toFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        if (!BUILD_FOLDER.exists()) {
-            BUILD_FOLDER.mkdir();
+
+        if (!buildFolder.exists()) {
+            buildFolder.mkdir();
         }
 
         // Load the config file
@@ -45,6 +55,12 @@ public class BuildCommand implements Runnable {
 
         // Parse all file in path and sub-folders
         forEachFileInDirectory(folderPath.toString(), this::parseFile);
+
+        try {
+            copyDirectory(buildFolder.getAbsolutePath().toString(), Path.of(folderPath.toString() + File.separator + "build").toAbsolutePath().toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void parseFile(final File file) {
@@ -62,7 +78,7 @@ public class BuildCommand implements Runnable {
         try (FileReader reader = new FileReader(file)) {
             Markdown2htmlParser parser = Markdown2htmlParser.getInstance();
             ParserResult result = parser.convertMarkdownToHTML(reader);
-            File newFile = new File(BUILD_FOLDER.getAbsolutePath() + File.separator + relativizedPath);
+            File newFile = new File(buildFolder.getAbsolutePath() + File.separator + relativizedPath);
             newFile.getParentFile().mkdirs();
             newFile.createNewFile();
 
@@ -75,6 +91,7 @@ public class BuildCommand implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
 
