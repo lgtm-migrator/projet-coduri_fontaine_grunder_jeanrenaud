@@ -13,7 +13,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static utils.FileExtension.copyDirectory;
@@ -56,8 +55,10 @@ public class BuildCommand implements Runnable {
         // Parse all file in path and sub-folders
         forEachFileInDirectory(folderPath.toString(), this::parseFile);
 
+        // Move the temp build folder to the specified folder
         try {
-            copyDirectory(buildFolder.getAbsolutePath().toString(), Path.of(folderPath.toString() + File.separator + "build").toAbsolutePath().toString());
+            copyDirectory(buildFolder.getAbsolutePath().toString(),
+                    Path.of(folderPath.toString() + File.separator + "build").toAbsolutePath().toString());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -65,13 +66,21 @@ public class BuildCommand implements Runnable {
 
     private void parseFile(final File file) {
         final Pattern p = Pattern.compile("(\\.[mM][dD])$");
+        String relativizedPath =
+                folderPath.toFile().getAbsoluteFile().toURI().relativize(file.getAbsoluteFile().toURI()).getPath();
+
         if (!p.matcher(file.getPath()).find()) {
+            try {
+                Files.copy(file.toPath().toAbsolutePath(),
+                        Path.of(buildFolder.getAbsolutePath() + File.separator + relativizedPath).toAbsolutePath(),
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return;
         }
 
         // Replace .md || .Md || .mD || .MD with .html
-        String relativizedPath =
-                folderPath.toFile().getAbsoluteFile().toURI().relativize(file.getAbsoluteFile().toURI()).getPath();
         relativizedPath = p.matcher(relativizedPath).replaceAll(".html");
 
 

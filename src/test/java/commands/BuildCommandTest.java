@@ -8,7 +8,6 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static utils.FileExtension.forEachFileInDirectory;
 
 public class BuildCommandTest extends CommandTest {
 
