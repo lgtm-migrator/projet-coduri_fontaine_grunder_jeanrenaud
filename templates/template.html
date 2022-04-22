@@ -20,19 +20,11 @@
             <h2>{{ page.subtitle }}</h2>
         </div>
 
-        <nav>
-            <a href="">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
-        </nav>
+        {% include menu.html }
     </header>
     <div class="body">
         <aside>
-            <nav>
-                <a href="">Home</a>
-                <a href="/about">About</a>
-                <a href="/contact">Contact</a>
-            </nav>
+            {% include menu.html }
         </aside>
 
         <main>
