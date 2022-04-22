@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static utils.FileExtension.copyDirectory;
@@ -30,6 +31,7 @@ public class BuildCommand implements Runnable {
     private static final String CONFIG_FILE = "config.yml";
     private File buildFolder;
     private ConfigModel configModel;
+    private String markdownLinks = "";
 
     @Parameters(index = "0", description = "The folder to build the website from.")
     private Path folderPath;
@@ -53,7 +55,9 @@ public class BuildCommand implements Runnable {
         loadConfigFile();
 
         // Parse all file in path and sub-folders
+        forEachFileInDirectory(folderPath.toString(), this::getLink);
         forEachFileInDirectory(folderPath.toString(), this::parseAndCreateFile);
+
 
         // Move the temp build folder to the specified folder
         try {
@@ -102,9 +106,12 @@ public class BuildCommand implements Runnable {
             return;
         }
 
+        // if the file is a markdown file, parse it, create the html file and add the link to the markdownLinks array.
+        //markdownLinks.add(new Path.of(relativizedPath));
+
+
         // Replace .md || .Md || .mD || .MD with .html
         relativizedPath = p.matcher(relativizedPath).replaceAll(".html");
-
 
         try (FileReader reader = new FileReader(file)) {
             Markdown2htmlParser parser = Markdown2htmlParser.getInstance();
@@ -115,6 +122,11 @@ public class BuildCommand implements Runnable {
                     put("site", configModel);
                     put("page", result.getHeaders());
                     put("content", result.getHtml());
+                    put("menu", new HashMap<String, String>() {
+                        {
+                            put("links", markdownLinks);
+                        }
+                    });
                 }
             }, Paths.get("." + File.separator + "templates" + File.separator + "template.html"));
 
@@ -134,6 +146,21 @@ public class BuildCommand implements Runnable {
 
     }
 
+    private void getLink(final File file) {
+        final Pattern p = Pattern.compile("(\\.[mM][dD])$");
+        final Pattern fileNamePattern = Pattern.compile("[^ /]*(?=\\..*)");
+        String relativizedPath =
+                folderPath.toFile().getAbsoluteFile().toURI().relativize(file.getAbsoluteFile().toURI()).getPath();
+        relativizedPath = p.matcher(relativizedPath).replaceAll(".html");
 
+        if (!p.matcher(file.getPath()).find()) {
+            return;
+        }
+
+        Matcher matcher = fileNamePattern.matcher(relativizedPath);
+        matcher.find();
+        final String filename = matcher.group();
+        markdownLinks += "<a href=\"/" + relativizedPath + "\">" + filename + "</a>\n";
+    }
 
 }
