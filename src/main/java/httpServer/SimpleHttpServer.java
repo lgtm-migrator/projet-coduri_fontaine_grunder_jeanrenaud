@@ -1,3 +1,5 @@
+package httpServer;
+
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -5,7 +7,7 @@ import java.net.InetSocketAddress;
 
 public class SimpleHttpServer {
     private final int PORT;
-    private SimpleHttpServer server;
+    private HttpServer server;
 
     public SimpleHttpServer(int port) {
         this.PORT = port;
@@ -14,7 +16,7 @@ public class SimpleHttpServer {
     void start() throws IOException {
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
-        server.createContext("/static", new StaticFileHandler(BASEDIR));
+        server.createContext("/static");
 
         server.start();
     }
