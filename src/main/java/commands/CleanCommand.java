@@ -27,7 +27,7 @@ public class CleanCommand implements Runnable {
         File buildDir = new File(directoryName + "/build/");
         try {
             FileUtils.deleteDirectory(buildDir);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error occured : " + e.getMessage());
         }
 
