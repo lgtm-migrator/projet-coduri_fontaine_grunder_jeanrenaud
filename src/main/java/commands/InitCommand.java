@@ -1,42 +1,41 @@
 package commands;
 
 import org.codehaus.plexus.util.FileUtils;
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.net.URISyntaxException;
 
+/**
+ *Command to create a folder with most things needed for a static website.
+ *
+ * @author Alice Grunder
+ * @version 1.0
+ */
 @Command (name = "init", mixinStandardHelpOptions = true, version = "init 1.0",
-            description = "Initialize a static website in the designed folder.")
+          description = "Initialize a static website in the designed folder.")
 public class InitCommand implements Runnable {
 
     @Parameters(index = "0")
-    private Path path;
+    private String destPathString;
 
-    private File indexSource  = new File("https://github.com/dil-classroom/projet-coduri_fontaine_grunder_jeanrenaud/blob/main/init/index.md");
-    private File configSource = new File("https://github.com/dil-classroom/projet-coduri_fontaine_grunder_jeanrenaud/blob/main/init/config.yaml");
+    private File sourcePath;
 
+    {
+        try {
+            sourcePath = new File(this.getClass().getClassLoader().getResource("init").toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void run() {
+        File destPath = new File(System.getProperty("user.dir") + destPathString);
         try {
-
-            Path indexDestPath  = Path.of(path.toString() + "\\index.md");
-            Path configDestPath = Path.of(path+"\\config.yaml");
-
-            File indexDest  = new File(path+"\\index.md");
-            File configDest = new File(path+"\\config.yaml");
-
-            Files.createDirectories(path);
-            Files.createFile(indexDestPath);
-            Files.createFile(configDestPath);
-            FileUtils.copyDirectory(indexSource,indexDest);
-            FileUtils.copyDirectory(configSource,configDest);
-            System.out.println("init donne");
+            FileUtils.copyDirectory(sourcePath, destPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
