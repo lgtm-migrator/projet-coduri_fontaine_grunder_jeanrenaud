@@ -13,7 +13,7 @@ public class SimpleHttpServer {
         this.PORT = port;
     }
 
-    void start() throws IOException {
+    public void start() throws IOException {
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
         server.createContext("/static");
