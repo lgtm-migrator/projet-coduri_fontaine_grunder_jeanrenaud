@@ -8,15 +8,17 @@ import java.net.InetSocketAddress;
 public class SimpleHttpServer {
     private final int PORT;
     private HttpServer server;
+    private final String BASEDIR;
 
-    public SimpleHttpServer(int port) {
+    public SimpleHttpServer(int port, String baseDirectory) {
         this.PORT = port;
+        this.BASEDIR = baseDirectory;
     }
 
     public void start() throws IOException {
         server = HttpServer.create(new InetSocketAddress(PORT), 0);
 
-        server.createContext("/static");
+        server.createContext("/", new StaticFileHandler(BASEDIR));
 
         server.start();
     }

@@ -11,7 +11,7 @@ public class HttpServer {
 
     @Test
     public void accessRightURL() {
-        SimpleHttpServer server = new SimpleHttpServer(8080);
+        SimpleHttpServer server = new SimpleHttpServer(8080, "index.html");
 
         assertDoesNotThrow(server::start);
         URL url = assertDoesNotThrow(() -> {
@@ -29,7 +29,7 @@ public class HttpServer {
 
     @Test
     public void accessWrongURL() {
-        SimpleHttpServer server = new SimpleHttpServer(8080);
+        SimpleHttpServer server = new SimpleHttpServer(8080, "index.html");
 
         assertDoesNotThrow(server::start);
         URL url = assertDoesNotThrow(() -> {
