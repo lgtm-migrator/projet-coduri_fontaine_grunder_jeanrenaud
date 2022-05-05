@@ -19,12 +19,12 @@ public class ServeCommand implements Runnable {
 
     @Override
     public void run() {
-        if (new File(directoryName.toString()).exists()) {
+        if (!(new File(directoryName.toString()).exists())) {
             System.out.println("Path not found");
             return;
         }
 
-        SimpleHttpServer server = new SimpleHttpServer(80, directoryName.toString());
+        SimpleHttpServer server = new SimpleHttpServer(8080, directoryName.toString());
 
         try {
             server.start();

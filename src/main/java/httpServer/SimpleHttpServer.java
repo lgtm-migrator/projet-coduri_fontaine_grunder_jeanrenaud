@@ -16,11 +16,17 @@ public class SimpleHttpServer {
     }
 
     public void start() throws IOException {
-        server = HttpServer.create(new InetSocketAddress(PORT), 0);
+
+        if ((server = HttpServer.create(new InetSocketAddress(PORT), 0)) == null)
+            throw new IOException("Could not create server");
+        System.out.println("Server created");
 
         server.createContext("/", new StaticFileHandler(BASEDIR));
+        System.out.println("Context created");
 
         server.start();
+        System.out.println("Server started on port " + PORT);
+        while (true);
     }
 
     public void stop() {
