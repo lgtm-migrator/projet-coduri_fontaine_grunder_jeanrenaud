@@ -26,10 +26,15 @@ public class SimpleHttpServer {
 
         server.start();
         System.out.println("Server started on port " + PORT);
+
+        Thread printingHook = new Thread(this::stop);
+        Runtime.getRuntime().addShutdownHook(printingHook);
+
         while (true);
     }
 
     public void stop() {
         server.stop(0);
+        System.out.println("Server stopped");
     }
 }
