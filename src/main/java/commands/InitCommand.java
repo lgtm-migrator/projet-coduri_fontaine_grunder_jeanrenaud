@@ -33,7 +33,7 @@ public class InitCommand implements Runnable {
 
     @Override
     public void run() {
-        File destPath = new File(System.getProperty("user.dir") + destPathString);
+        File destPath = new File(destPathString);
         try {
             FileUtils.copyDirectory(sourcePath, destPath);
         } catch (IOException e) {
