@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
 import websitebuilder.App;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,7 +32,7 @@ public class BuildCommandTest extends CommandTest {
     }
 
     @Test
-    public void commandOutputTest() {
+    public void commandOutputTest() throws IOException {
         App app = new App();
         CommandLine cmd = new CommandLine(app);
         final String testFolder = "." + File.separator + "test";
@@ -42,6 +44,6 @@ public class BuildCommandTest extends CommandTest {
         assertEquals(0, exitCode);
         assertEquals("", err.toString());
         assertTrue(buildFolder.exists());
-
+        assertTrue(Files.readString(buildFolder.toPath().resolve("index.html")).contains("<h1>Mon premier article</h1>\n"));
     }
 }
