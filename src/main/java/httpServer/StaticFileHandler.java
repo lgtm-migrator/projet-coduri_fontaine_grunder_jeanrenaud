@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -25,6 +27,14 @@ public class StaticFileHandler implements HttpHandler {
     public void handle(HttpExchange ex) throws IOException {
         URI uri = ex.getRequestURI();
         String name = new File(uri.getPath()).getName();
+
+        if (name.equals("/favicon.ico"))
+            ex.sendResponseHeaders(404, 0);
+
+        if (name.equals("") || !new File(name).isFile()) {
+            name += "/index.html";
+        }
+
         File path = new File(baseDir, name);
 
         Headers h = ex.getResponseHeaders();
