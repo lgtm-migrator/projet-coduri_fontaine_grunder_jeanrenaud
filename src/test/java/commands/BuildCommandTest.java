@@ -46,5 +46,7 @@ public class BuildCommandTest extends CommandTest {
         assertTrue(buildFolder.exists());
         assertTrue(Files.readString(buildFolder.toPath().resolve("index.html")).contains("<h1>THE WEBSITE</h1>\n"));
         assertTrue(Files.readString(buildFolder.toPath().resolve("index.html")).contains("Mon beau site"));
+        assertTrue(Files.readString(buildFolder.toPath().resolve("index.html")).contains("<nav>"));
+        assertTrue(Files.readString(buildFolder.toPath().resolve("index.html")).contains("</nav>"));
     }
 }
