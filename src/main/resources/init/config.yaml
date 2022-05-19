@@ -1,0 +1,6 @@
+---
+title: "Example site"
+description: "Ceci est la description du site"
+domaine:
+  host: localhost
+  port: 80
