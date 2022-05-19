@@ -1,4 +1,5 @@
 import httpServer.SimpleHttpServer;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,20 +14,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpServer {
+    static final String FOLDER_NAME = "init/mysite/";
+    static final String FILE_NAME = "index.html";
 
     @BeforeAll
     public static void setUp() {
-        String path = "init/mysite/";
-        String fileName = "index.html";
 
         try {
-            File file = new File(path);
+            File file = new File(FOLDER_NAME);
 
             if (!file.exists()) {
                 file.mkdirs();
             }
 
-            File indexFile = new File(path + File.separator + fileName);
+            File indexFile = new File(FOLDER_NAME + File.separator + FILE_NAME);
             if (!indexFile.exists()) {
 
                 FileWriter writer = new FileWriter(indexFile);
@@ -41,11 +42,22 @@ public class HttpServer {
 
     }
 
+    @After
+    public static void deleteFiles() {
+
+    }
+
     @Test
     public void accessRightURL() {
-        SimpleHttpServer server = new SimpleHttpServer(8080, "./init/mysite");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SimpleHttpServer server = new SimpleHttpServer(8080, FOLDER_NAME);
+                assertDoesNotThrow(server::start);
+            }
+        });
+        thread.start();
 
-        assertDoesNotThrow(server::start);
         URL url = assertDoesNotThrow(() -> {
             return new URL("http://localhost:8080/");
         });
@@ -58,14 +70,20 @@ public class HttpServer {
 
         assertEquals(HttpURLConnection.HTTP_OK, responseCode);
 
-        server.stop();
+        thread.interrupt();
     }
 
     @Test
     public void accessWrongURL() {
-        SimpleHttpServer server = new SimpleHttpServer(8080, "/init/mysite");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SimpleHttpServer server = new SimpleHttpServer(8080, FOLDER_NAME);
+                assertDoesNotThrow(server::start);
+            }
+        });
+        thread.start();
 
-        assertDoesNotThrow(server::start);
         URL url = assertDoesNotThrow(() -> {
             return new URL("http://localhost:8080/wrong");
         });
@@ -78,7 +96,12 @@ public class HttpServer {
 
         assertEquals(HttpURLConnection.HTTP_NOT_FOUND, responseCode);
 
-        server.stop();
+        thread.interrupt();
+    }
+
+    @Test
+    public void accessRightURLInSubFolder() {
+
     }
 
 }
