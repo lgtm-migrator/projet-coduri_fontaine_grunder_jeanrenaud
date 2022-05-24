@@ -19,7 +19,7 @@ public class HttpServerTest {
     static SimpleHttpServer server;
 
     @BeforeAll
-    public static void setUp() {
+    public static void setUp() throws InterruptedException {
 
         try {
             File file = new File(FOLDER_NAME);
@@ -53,6 +53,8 @@ public class HttpServerTest {
             }
         });
         thread.start();
+
+        Thread.sleep(1000);
     }
 
     static boolean deleteDirectory(File directoryToBeDeleted) {
