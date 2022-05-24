@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 @Command (
-        name = "serve"
+        name = "serve",
+        description = "Serve the website located at the given directory"
 )
 public class ServeCommand implements Runnable {
+    final int PORT = 8080;
+
     @CommandLine.Parameters(
             paramLabel = "directory name"
     )
@@ -24,7 +27,7 @@ public class ServeCommand implements Runnable {
             return;
         }
 
-        SimpleHttpServer server = new SimpleHttpServer(8080, directoryName.toString());
+        SimpleHttpServer server = new SimpleHttpServer(PORT, directoryName.toString());
 
         try {
             server.start();
