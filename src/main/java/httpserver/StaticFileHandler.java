@@ -13,8 +13,8 @@ import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
- * Handler for static file that
- * <p>
+ * Handler for static file that handle Http requests.
+ *
  * Copyright rememberjava.com. Licensed under GPL 3. See http://rememberjava.com/license
  *
  * @author Chloé Fontaine
