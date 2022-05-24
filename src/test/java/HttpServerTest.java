@@ -15,16 +15,8 @@ import java.net.URL;
 public class HttpServerTest {
     static final String FOLDER_NAME = "init/mysite/";
     static final String FILE_NAME = "index.html";
-
-    static boolean deleteDirectory(File directoryToBeDeleted) {
-        File[] allContents = directoryToBeDeleted.listFiles();
-        if (allContents != null) {
-            for (File file : allContents) {
-                deleteDirectory(file);
-            }
-        }
-        return directoryToBeDeleted.delete();
-    }
+    static Thread thread;
+    static SimpleHttpServer server;
 
     @BeforeAll
     public static void setUp() {
@@ -49,25 +41,47 @@ public class HttpServerTest {
             System.out.println("Error while creating file : " + e.getMessage());
         }
 
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                server = new SimpleHttpServer(8080, FOLDER_NAME);
+                try {
+                    server.start();
+                } catch (IOException e) {
+                    System.out.println(e);
+                }
+            }
+        });
+        thread.start();
+    }
+
+    static boolean deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        return directoryToBeDeleted.delete();
     }
 
     @AfterAll
-    public static void deleteFiles() {
+    public static void clear() {
+        // Terminate the thread
+        thread.interrupt();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
+
+        // Delete the created directories
         if (!deleteDirectory(new File(FOLDER_NAME)))
             System.out.println("Error while deleting folder");
     }
 
     @Test
     public void accessRightURL() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SimpleHttpServer server = new SimpleHttpServer(8080, FOLDER_NAME);
-                assertDoesNotThrow(server::start);
-            }
-        });
-        thread.start();
-
         URL url = assertDoesNotThrow(() -> {
             return new URL("http://localhost:8080/");
         });
@@ -79,20 +93,10 @@ public class HttpServerTest {
         int responseCode = assertDoesNotThrow(connection::getResponseCode);
 
         assertEquals(HttpURLConnection.HTTP_OK, responseCode);
-
-        thread.interrupt();
     }
 
     @Test
     public void accessWrongURL() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SimpleHttpServer server = new SimpleHttpServer(8080, FOLDER_NAME);
-                assertDoesNotThrow(server::start);
-            }
-        });
-        thread.start();
 
         URL url = assertDoesNotThrow(() -> {
             return new URL("http://localhost:8080/wrong");
@@ -105,8 +109,6 @@ public class HttpServerTest {
         int responseCode = assertDoesNotThrow(connection::getResponseCode);
 
         assertEquals(HttpURLConnection.HTTP_NOT_FOUND, responseCode);
-
-        thread.interrupt();
     }
 
     @Test
@@ -132,15 +134,6 @@ public class HttpServerTest {
             System.out.println("Error while creating file : " + e.getMessage());
         }
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SimpleHttpServer server = new SimpleHttpServer(8080, FOLDER_NAME);
-                assertDoesNotThrow(server::start);
-            }
-        });
-        thread.start();
-
         URL url = assertDoesNotThrow(() -> {
             return new URL("http://localhost:8080/test");
         });
@@ -152,8 +145,6 @@ public class HttpServerTest {
         int responseCode = assertDoesNotThrow(connection::getResponseCode);
 
         assertEquals(HttpURLConnection.HTTP_OK, responseCode);
-
-        thread.interrupt();
     }
 
 }

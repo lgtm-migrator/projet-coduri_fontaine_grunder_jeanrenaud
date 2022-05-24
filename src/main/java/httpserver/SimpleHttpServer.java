@@ -58,7 +58,7 @@ public class SimpleHttpServer {
         Runtime.getRuntime().addShutdownHook(printingHook);
 
         // Server is running until
-        while (true) { }
+        while (!Thread.interrupted()) { }
     }
 
     /**
