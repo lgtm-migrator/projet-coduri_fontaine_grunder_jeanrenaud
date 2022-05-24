@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="iso-8859-15" standalone="no"?>
+<classDiagram>
+  <diagramElements defaultViewEntities="ALL" defaultViewEnum="true" defaultViewMethods="TYPE_AND_NAME" defaultVisibleTypes="true" informations="" name="">
+    <association aggregation="NONE" direction="FIRST_TO_SECOND" id="65565" name="">
+      <role componentId="65563" name="" visibility="PRIVATE">
+        <multiplicity>
+          <min>1</min>
+          <max>1</max>
+        </multiplicity>
+      </role>
+      <role componentId="65561" name="" visibility="PRIVATE">
+        <multiplicity>
+          <min>1</min>
+          <max>1</max>
+        </multiplicity>
+      </role>
+    </association>
+    <entity entityType="CLASS" id="65564" isAbstract="false" name="SiteInit" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="rootFolder" type="File" visibility="PRIVATE"/>
+      <method is-constructor="true" isAbstract="false" isStatic="false" name="SiteInit" returnType="" view="DEFAULT" visibility="PUBLIC">
+        <variable const="false" name="p" type="File"/>
+      </method>
+      <method isAbstract="false" isStatic="false" name="build" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+    <entity entityType="CLASS" id="65563" isAbstract="false" name="SiteBuilder" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="rootFolder" type="File" visibility="PRIVATE"/>
+      <method isAbstract="false" isStatic="false" name="build" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+    <entity entityType="CLASS" id="65562" isAbstract="false" name="HttpServer" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="port" type="int" visibility="PRIVATE"/>
+      <method is-constructor="true" isAbstract="false" isStatic="false" name="HttpServer" returnType="" view="DEFAULT" visibility="PUBLIC">
+        <variable const="false" name="port" type="int"/>
+      </method>
+      <method isAbstract="false" isStatic="false" name="serve" returnType="void" view="DEFAULT" visibility="PUBLIC"/>
+    </entity>
+    <entity entityType="CLASS" id="65561" isAbstract="false" name="TemplateEngine" visibility="PUBLIC">
+      <attribute const="false" defaultValue="" isStatic="false" name="templateFile" type="File" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="markdownFile" type="File" visibility="PRIVATE"/>
+      <attribute const="false" defaultValue="" isStatic="false" name="configurationFile" type="File" visibility="PRIVATE"/>
+    </entity>
+  </diagramElements>
+  <umlView grid="10" name="Main view" open="true">
+    <relationView color="-12566464" relationId="65565">
+      <line>
+        <point>
+          <x>521</x>
+          <y>341</y>
+        </point>
+        <point>
+          <x>771</x>
+          <y>341</y>
+        </point>
+      </line>
+      <labelAssociation>
+        <x>650</x>
+        <y>345</y>
+        <w>0</w>
+        <h>16</h>
+      </labelAssociation>
+      <roleAssociation>
+        <x>525</x>
+        <y>345</y>
+        <w>0</w>
+        <h>16</h>
+      </roleAssociation>
+      <roleAssociation>
+        <x>735</x>
+        <y>345</y>
+        <w>0</w>
+        <h>16</h>
+      </roleAssociation>
+      <multipliciteAssociation>
+        <x>525</x>
+        <y>319</y>
+        <w>8</w>
+        <h>16</h>
+      </multipliciteAssociation>
+      <multipliciteAssociation>
+        <x>757</x>
+        <y>319</y>
+        <w>8</w>
+        <h>16</h>
+      </multipliciteAssociation>
+    </relationView>
+    <componentView color="-2079" componentID="65561" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>770</x>
+        <y>320</y>
+        <w>150</w>
+        <h>100</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="65562" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>1100</x>
+        <y>330</y>
+        <w>150</w>
+        <h>100</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="65563" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>370</x>
+        <y>310</y>
+        <w>150</w>
+        <h>85</h>
+      </geometry>
+    </componentView>
+    <componentView color="-2079" componentID="65564" displayAttributes="true" displayDefault="true" displayMethods="true">
+      <geometry>
+        <x>50</x>
+        <y>310</y>
+        <w>150</w>
+        <h>100</h>
+      </geometry>
+    </componentView>
+  </umlView>
+</classDiagram>
