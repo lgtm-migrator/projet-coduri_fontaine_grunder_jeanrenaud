@@ -1,6 +1,6 @@
 package commands;
 
-import httpServer.SimpleHttpServer;
+import httpserver.SimpleHttpServer;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
@@ -8,12 +8,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-@Command (
+@Command(
         name = "serve",
         description = "Serve the website located at the given directory"
 )
 public class ServeCommand implements Runnable {
-    final int PORT = 8080;
+    private final int port = 8080;
 
     @CommandLine.Parameters(
             paramLabel = "directory name"
@@ -27,13 +27,20 @@ public class ServeCommand implements Runnable {
             return;
         }
 
-        SimpleHttpServer server = new SimpleHttpServer(PORT, directoryName.toString());
+        SimpleHttpServer server = new SimpleHttpServer(port, directoryName.toString());
 
         try {
             server.start();
         } catch (IOException e) {
             System.out.println("Error occured : " + e.getMessage());
         }
+    }
 
+    /**
+     * Return server's port.
+     * @return Server's port
+     */
+    public int getPort() {
+        return port;
     }
 }

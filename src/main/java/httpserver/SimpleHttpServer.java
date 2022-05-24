@@ -1,4 +1,4 @@
-package httpServer;
+package httpserver;
 
 import com.sun.net.httpserver.HttpServer;
 
@@ -13,47 +13,52 @@ import java.net.InetSocketAddress;
  */
 public class SimpleHttpServer {
     /**
-     * Port on which http server will be served
+     * Port on which http server will be served.
      */
-    private final int PORT;
+    private final int port;
     private HttpServer server;
     /**
-     * Directory that contains the html pages to serve
+     * Directory that contains the html pages to serve.
      */
-    private final String BASEDIR;
+    private final String baseDir;
 
     /**
      * Constructor that create an HTTP server.
-     * @param port Port on which the website will be served
+     *
+     * @param serverPort          Port on which the website will be served
      * @param baseDirectory Directory that contains the files of the website
      *                      (should contain one file named "index.html")
      */
-    public SimpleHttpServer(int port, String baseDirectory) {
-        this.PORT = port;
-        this.BASEDIR = baseDirectory;
+    public SimpleHttpServer(final int serverPort, final String baseDirectory) {
+        this.port = serverPort;
+        this.baseDir = baseDirectory;
     }
 
     /**
      * Create a new server and serve the files located in the directory.
+     *
      * @throws IOException
      */
     public void start() throws IOException {
-        if ((server = HttpServer.create(new InetSocketAddress(PORT), 0)) == null)
+        server = HttpServer.create(new InetSocketAddress(port), 0);
+
+        if (server == null) {
             throw new IOException("Could not create server");
+        }
         System.out.println("Server created");
 
-        server.createContext("/", new StaticFileHandler(BASEDIR));
+        server.createContext("/", new StaticFileHandler(baseDir));
         System.out.println("Context created");
 
         server.start();
-        System.out.println("Server started on port " + PORT);
+        System.out.println("Server started on port " + port);
 
         // Appel de la méthode stop lors de l'arrêt forcé (CTRL+C)
         Thread printingHook = new Thread(this::stop);
         Runtime.getRuntime().addShutdownHook(printingHook);
 
-         // Server is running until
-        while (true);
+        // Server is running until
+        while (true) { }
     }
 
     /**
@@ -62,5 +67,13 @@ public class SimpleHttpServer {
     public void stop() {
         server.stop(0);
         System.out.println("Server stopped");
+    }
+
+    /**
+     * Return the server's port.
+     * @return Server's port
+     */
+    public int getPort() {
+        return port;
     }
 }

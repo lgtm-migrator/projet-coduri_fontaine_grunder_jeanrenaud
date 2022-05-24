@@ -1,10 +1,8 @@
-import httpServer.SimpleHttpServer;
-import org.junit.After;
+import httpserver.SimpleHttpServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 
-import static org.apache.commons.io.FileUtils.deleteDirectory;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
