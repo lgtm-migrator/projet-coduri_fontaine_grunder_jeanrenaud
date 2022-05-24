@@ -54,6 +54,7 @@ public class HttpServerTest {
         });
         thread.start();
 
+        // Wait for the server to start
         Thread.sleep(1000);
     }
 
