@@ -92,10 +92,6 @@ public class BuildCommand implements Runnable {
             return;
         }
 
-        // if the file is a markdown file, parse it, create the html file and add the link to the markdownLinks array.
-        //markdownLinks.add(new Path.of(relativizedPath));
-
-
         // Replace .md || .Md || .mD || .MD with .html
         relativizedPath = p.matcher(relativizedPath).replaceAll(".html");
 
