@@ -165,4 +165,5 @@ public class BuildCommand implements Runnable {
         markdownLinks += "<a href=\"/" + relativizedPath + "\">" + filename + "</a>\n";
     }
 
- }
+}
+
