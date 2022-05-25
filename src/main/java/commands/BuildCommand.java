@@ -27,8 +27,8 @@ import static utils.FileExtension.forEachFileInDirectory;
         description = "Build the website using the specified folder."
 )
 public class BuildCommand implements Runnable {
-    private static final String CONFIG_FILE = "config.yml";
     private File buildFolder;
+    private static final String CONFIG_FILE = "config.yml";
     private ConfigModel configModel;
 
     @Parameters(index = "0", description = "The folder to build the website from.")
@@ -65,28 +65,14 @@ public class BuildCommand implements Runnable {
     }
 
     /**
-     * Load the config file into the configModel.
-     * @author Luca Coduri
-     */
-    private void loadConfigFile() {
-        try (InputStream configFile =
-                     new BufferedInputStream(new FileInputStream(folderPath + File.separator + CONFIG_FILE))) {
-            Yaml yaml = new Yaml(new Constructor(ConfigModel.class));
-            configModel = yaml.load(configFile);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Parse all markdown files into html files.
+     * Parse all markdown files into html files into the build folder.
      * @implNote Files that are not markdown files are copied to the build folder.
-     * This method can be faster if the files are copied only once. But it is not.
      * @param file The folder containing files to parse.
      * @author Luca Coduri
      */
     private void parseAndCreateFile(final File file) {
         final Pattern p = Pattern.compile("(\\.[mM][dD])$");
+        // It relativize a path to the parent folder path.
         String relativizedPath =
                 folderPath.toFile().getAbsoluteFile().toURI().relativize(file.getAbsoluteFile().toURI()).getPath();
 
@@ -118,6 +104,9 @@ public class BuildCommand implements Runnable {
                 }
             }, Paths.get("." + File.separator + "templates" + File.separator + "template.html"));
 
+
+
+            // Create the new file in the build folder
             File newFile = new File(buildFolder.getAbsolutePath() + File.separator + relativizedPath);
             newFile.getParentFile().mkdirs();
             newFile.createNewFile();
@@ -133,7 +122,20 @@ public class BuildCommand implements Runnable {
         }
 
     }
+    /*
+     * Load the config file into the configModel.
+     * @author Luca Coduri
+     */
+    private void loadConfigFile() {
+        try (InputStream configFile =
+                     new BufferedInputStream(new FileInputStream(folderPath + File.separator + CONFIG_FILE))) {
+            Yaml yaml = new Yaml(new Constructor(ConfigModel.class));
+            configModel = yaml.load(configFile);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 
-}
+ }
