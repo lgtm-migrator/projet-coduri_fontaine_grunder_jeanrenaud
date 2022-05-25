@@ -1,12 +1,12 @@
 package parser;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Markdown2htmlParserTest {
     @Test
@@ -56,9 +56,9 @@ public class Markdown2htmlParserTest {
                 + "## Mon sous-titre\n"
                 + "Le contenu de mon article.";
 
-        final Map<String, List<String>> expectedOutput = new HashMap<>();
-        expectedOutput.put("auteur", List.of("Bertil Chapuis"));
-        expectedOutput.put("date", List.of("2021-03-10"));
+        final Map<String, String> expectedOutput = new HashMap<>();
+        expectedOutput.put("auteur", "Bertil Chapuis");
+        expectedOutput.put("date", "2021-03-10");
 
         final ParserResult result = Markdown2htmlParser.getInstance().convertMarkdownToHTML(markdownValue);
 
