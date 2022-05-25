@@ -23,7 +23,11 @@ public class CleanCommand implements Runnable {
     private Path directoryName;
 
     @Override
-    public void run() {
+    public void run() throws IllegalArgumentException {
+        if (directoryName.startsWith("/")) {
+            throw new IllegalArgumentException("Trying to delete a file in root directory");
+        }
+
         File buildDir = new File(directoryName + "/build/");
         try {
             FileUtils.deleteDirectory(buildDir);

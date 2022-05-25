@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpServerTest {
-    static final String FOLDER_NAME = "init/mysite/";
+    static final String FOLDER_NAME = "test/init/mysite/";
     static final String FILE_NAME = "index.html";
     static Thread thread;
     static SimpleHttpServer server;
