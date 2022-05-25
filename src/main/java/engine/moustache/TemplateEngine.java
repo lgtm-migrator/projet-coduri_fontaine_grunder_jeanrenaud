@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * It handles templates and renders them.
+ * This singleton handles templates and renders them.
  * @author Luca Coduri
  */
 public final class TemplateEngine {
@@ -45,14 +45,15 @@ public final class TemplateEngine {
     public String applyMapToTemplate(final Map<String, Object> context, final Path templatePath) {
         String templateFile;
         try {
-            templateFile =
-                    Files.readString(templatePath);
+            templateFile = Files.readString(templatePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // Apply all includes in the template
         templateFile = applyIncludes(templateFile);
         String modified;
         try {
+            // Apply the map to the template
             Template template = handlebars.compileInline(templateFile);
             modified = template.apply(context);
         } catch (Exception e) {
@@ -62,6 +63,12 @@ public final class TemplateEngine {
         return modified;
     }
 
+    /**
+     * It looks for includes in the template and replaces them with the content of the included file.
+     * @implNote Is a recursive function.
+     * @param template
+     * @return
+     */
     private String applyIncludes(final String template) {
         Pattern filenamePattern = Pattern.compile("(?<=\\{% {0,5}include {1,5})[^\\s]*(?= *})");
         Pattern includePattern = Pattern.compile("\\{% +include +[^\\s]* +}");
@@ -73,8 +80,10 @@ public final class TemplateEngine {
         }
         // for each include statement in the template string
         do {
+            // Look for matching pattern
             Matcher filenameMatcher = filenamePattern.matcher(matcher.group());
             filenameMatcher.find();
+            // Get the file path ex: {% include "path/to/file" }
             final String filename = filenameMatcher.group();
             String fileToInclude = "";
 
