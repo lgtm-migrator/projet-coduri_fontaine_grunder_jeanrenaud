@@ -67,7 +67,7 @@ public final class TemplateEngine {
      * It looks for includes in the template and replaces them with the content of the included file.
      * @implNote Is a recursive function.
      * @param template
-     * @return
+     * @return the template with all includes replaced.
      */
     private String applyIncludes(final String template) {
         Pattern filenamePattern = Pattern.compile("(?<=\\{% {0,5}include {1,5})[^\\s]*(?= *})");
