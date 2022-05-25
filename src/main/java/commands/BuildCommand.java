@@ -28,6 +28,8 @@ import static utils.FileExtension.forEachFileInDirectory;
 )
 public class BuildCommand implements Runnable {
     private File buildFolder;
+    private static final String CONFIG_FILE = "config.yml";
+    private ConfigModel configModel;
 
     @Parameters(index = "0", description = "The folder to build the website from.")
     private Path folderPath;
@@ -47,6 +49,8 @@ public class BuildCommand implements Runnable {
         if (!buildFolder.exists() && !buildFolder.mkdir()) {
             throw new RuntimeException("Could not create a temp build folder.");
         }
+
+        loadConfigFile();
 
         // Parse all file in path and sub-folders
         forEachFileInDirectory(folderPath.toString(), this::parseAndCreateFile);
@@ -118,7 +122,20 @@ public class BuildCommand implements Runnable {
         }
 
     }
+    /*
+     * Load the config file into the configModel.
+     * @author Luca Coduri
+     */
+    private void loadConfigFile() {
+        try (InputStream configFile =
+                     new BufferedInputStream(new FileInputStream(folderPath + File.separator + CONFIG_FILE))) {
+            Yaml yaml = new Yaml(new Constructor(ConfigModel.class));
+            configModel = yaml.load(configFile);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 
-}
+ }
