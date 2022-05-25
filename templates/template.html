@@ -5,13 +5,114 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>{{ site.title }} | {{ page.title }}</title>
 </head>
 <body>
-    <h1>{{ page.title }}</h1>
-    <h2>{{ page.subtitle }}</h2>
-    {{{ content }}}
+
+
+
+    <header>
+        <div class="header-title">
+            <h1>{{ page.title }}</h1>
+            <h2>{{ page.subtitle }}</h2>
+        </div>
+
+        <nav>
+            <a href="">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+    <div class="body">
+        <aside>
+            <nav>
+                <a href="">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </aside>
+
+        <main>
+            {{{ content }}}
+        </main>
+    </div>
+
     {% include footer.html }
 </body>
 </html>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html *
+    {
+        color: #000 !important;
+        font-family: 'Raleway', sans-serif !important;
+    }
+    header{
+        height: 120px;
+        display: flex;
+        background: white;
+        padding: 20px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: #cbcbcb;
+    }
+    header nav{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .header-title{
+        width: 300px;
+    }
+    .body{
+        width: 100%;
+        height: calc(100vh - 120px);
+        display: flex;
+        flex-direction: row;
+    }
+    aside{
+        width: 300px;
+        height: 100%;
+        padding-top: 10px;
+        padding-left: 20px;
+    }
+    aside nav{
+        display: flex;
+        flex-direction: column;
+    }
+    nav a{
+        font-size: 25px;
+    }
+    main{
+        padding: 20px 100px;
+    }
+    code{
+        background-color: #F4F7FF;
+        border-radius: 5px;
+        border-color: #cbcbcb;
+        border-style: solid;
+        border-width: 1px;
+        padding: 2px 3px;
+    }
+    h1{
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    a{
+        text-decoration: none;
+        color: #000;
+    }
+    p{
+        line-height: 26px;
+        margin-bottom: 30px;
+    }
+
+</style>
