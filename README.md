@@ -38,15 +38,36 @@ Ce laboratoire à pour objectif d'entrainer la méthodologie à appliquer dans u
     -   Un de vos collègue devra faire une review votre PR (pull request) et faire des remarques constructives au besoin.
     -   Si la PR a été acceptée par votre collègue, vous devrez la merger dans la branche main.
 
+## Manuel Utilisateur
+### Introduction
+Cette section est desinée au utilisateur aux utilisateurs de notre application. L'application permet de générer un site web rapidement en écrivant le contenu de ce dernier au format .md
+
+### Prérequis
+* Un ordinateur.
+* Java 8 installé ou une version plus récente.
+
+### Installation
+* Télécharger le fichier jar [d'un release](https://github.com/dil-classroom/projet-coduri_fontaine_grunder_jeanrenaud/releases)
+
+### Utilisation
+* Pour utiliser l'application il faut executer le fichier jar dans un terminal :
+```console
+foo@bar:~$ java -jar static.jar
+```
+* Pour lancer une commande spécifique, il faut executer le fichier jar en fournissant le nom de la commande à executer en paramètre :
+```console
+foo@bar:~$ java -jar static.jar version
+```
 ## [License Apache 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
 ## [Code de conduite](CODE_OF_CONDUCT.md)
 
 ## [Porfolio](https://docs.google.com/document/d/1ma4DtP58aYvNaCOSFSOzSmjbmZ5aXtBLXJ-PQsJb1zY/edit?usp=sharing)
 
+
 # Authors
 
 -   Coduri Luca
--   Fontaine Chloö
+-   Fontaine Chloé
 -   Grunder Alice
 -   Jeanrenaud Nelson
