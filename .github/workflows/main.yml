@@ -47,6 +47,7 @@ jobs:
           path: target/surefire-reports/*.xml
           reporter: java-junit
           fail-on-error: true
+
       - name: JaCoCo Code Coverage Report
         id: jacoco_reporter
         uses: PavanMudigonda/jacoco-reporter@v4.5
@@ -61,14 +62,14 @@ jobs:
           publish_only_summary: false
 
           # Publish Coverage Job Summary  # Optional
-        - name: Add Coverage Job Summary
-          run: echo "{{ steps.jacoco_reporter.outputs.coverageSummary }}" >> $GITHUB_STEP_SUMMARY
+      - name: Add Coverage Job Summary
+        run: echo "{{ steps.jacoco_reporter.outputs.coverageSummary }}" >> $GITHUB_STEP_SUMMARY
 
-        # uploads the coverage-report.md artifact  # Optional
+      # uploads the coverage-report.md artifact  # Optional
 
-        - name: Upload Code Coverage Artifacts
-            uses: actions/upload-artifact@v2
-            with:
-              name: code-coverage-report-markdown
-              path: */coverage-results.md
-              retention-days: 1
+      - name: Upload Code Coverage Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: code-coverage-report-markdown
+          path: */coverage-results.md
+          retention-days: 1
