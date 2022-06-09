@@ -21,7 +21,7 @@ public class InitCommand implements Runnable {
     /**
      * Constructor for InitCommand. Doesn't take any argument.
      */
-    public InitCommand() {}
+    public InitCommand() { }
 
     /**
      * The folder to initialize.
