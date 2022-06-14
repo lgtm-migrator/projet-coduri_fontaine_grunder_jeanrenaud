@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
- *Command to create a folder with most things needed for a static website.
+ * Command to create a folder with most things needed for a static website.
  *
  * @author Alice Grunder
  * @version 1.0
