@@ -1,4 +1,4 @@
-package benchmarks;
+package commands;
 
 import org.openjdk.jmh.annotations.*;
 import picocli.CommandLine;
@@ -20,6 +20,10 @@ import java.util.concurrent.TimeUnit;
 @Fork(1)
 public class BenchmarkMdCompiler {
     private App app;
+    private static final String DIR_PATH = "." + File.separator + "test" + File.separator;
+
+    private static final int NB_WARMUP_IT = 3;
+    private static final int NB_MEASURE_IT = 10;
 
     /**
      * Run the benchmark.
@@ -37,19 +41,21 @@ public class BenchmarkMdCompiler {
         app = new App();
     }
 
-    private void clearDirs() {
-        File buildFolder = new File("." + File.separator + "test" + File.separator + "build");
+    /**
+     * Deletes the build folder.
+     */
+    public static void deleteBuildFolder() {
+        File buildFolder = new File(DIR_PATH + "build");
         if (buildFolder.exists()) {
-            try {
-                deleteDir(buildFolder);
-            } catch (Exception e) {
-                System.out.println("problème ici");
-            }
-
+            deleteDir(buildFolder);
         }
     }
 
-    private static void deleteDir(final File dirFile) {
+    /**
+     * Recursively delets a given file or directory.
+     * @param dirFile the file or directory to delete
+     */
+    public static void deleteDir(final File dirFile) {
         if (dirFile.isDirectory()) {
             File[] dirs = dirFile.listFiles();
             for (File dir: dirs) {
@@ -64,13 +70,13 @@ public class BenchmarkMdCompiler {
      */
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
-    @Warmup(iterations = 3)
-    @Measurement(iterations = 10)
+    @Warmup(iterations = NB_WARMUP_IT)
+    @Measurement(iterations = NB_MEASURE_IT)
     public void buildBenchmark() {
-        clearDirs();
+        deleteBuildFolder();
 
         CommandLine cmd = new CommandLine(app);
-        final String testFolder = "." + File.separator + "test";
+        final String testFolder = DIR_PATH;
 
         int exitCode = cmd.execute("build", testFolder);
     }
@@ -80,10 +86,10 @@ public class BenchmarkMdCompiler {
      */
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
-    @Warmup(iterations = 3)
-    @Measurement(iterations = 10)
+    @Warmup(iterations = NB_WARMUP_IT)
+    @Measurement(iterations = NB_MEASURE_IT)
     public void initBenchmark() {
-        final String testPath = "." + File.separator + "test";
+        final String testPath = DIR_PATH;
 
         CommandLine cmd = new CommandLine(app);
         int exitCode = cmd.execute("init", testPath);
