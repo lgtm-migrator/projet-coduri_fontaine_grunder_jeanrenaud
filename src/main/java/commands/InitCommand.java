@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
- *Command to create a folder with most things needed for a static website.
+ * Command to create a folder with most things needed for a static website.
  *
  * @author Alice Grunder
  * @version 1.0
@@ -18,6 +18,14 @@ import java.net.URISyntaxException;
           description = "Initialize a static website in the designed folder.")
 public class InitCommand implements Runnable {
 
+    /**
+     * Constructor for InitCommand. Doesn't take any argument.
+     */
+    public InitCommand() { }
+
+    /**
+     * The folder to initialize.
+     */
     @Parameters(index = "0")
     private String destPathString;
 
@@ -31,6 +39,9 @@ public class InitCommand implements Runnable {
         }
     }
 
+    /**
+     * Run the command. Called automatically when the command is executed.
+     */
     @Override
     public void run() {
         File destPath = new File(destPathString);
