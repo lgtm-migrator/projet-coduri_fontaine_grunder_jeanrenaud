@@ -1,6 +1,15 @@
 package commands;
 
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.Warmup;
+import org.openjdk.jmh.annotations.Measurement;
 import picocli.CommandLine;
 import websitebuilder.App;
 
@@ -10,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Benchmark for the init and build commands.
- *
  * @author Chloé Fontaine
  * @version 1.0
  */
@@ -19,10 +27,23 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 @Fork(1)
 public class BenchmarkMdCompiler {
+    /**
+     * Main application.
+     */
     private App app;
-    private static final String DIR_PATH = "." + File.separator + "test" + File.separator;
+    /**
+     * Index and config files directory.
+     */
+    private static final String DIR_PATH = "." + File.separator + "test"
+            + File.separator;
 
+    /**
+     * Number of Benchmark warmup iterations.
+     */
     private static final int NB_WARMUP_IT = 3;
+    /**
+     * Number of Benchmark measurement iterations.
+     */
     private static final int NB_MEASURE_IT = 10;
 
     /**
