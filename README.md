@@ -1,6 +1,5 @@
 # Projet de Méthodologie DIL
 
-[![GitHub Super-Linter](https://github.com/dil-classroom/projet-coduri_fontaine_grunder_jeanrenaud/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 Ce dépôt a été crée dans le context du cours DIL durant le 4 ème semestre de Bachelor en Technologies de l'information et de la communication à l'HEIG-VD.
 
