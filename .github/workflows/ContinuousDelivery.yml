@@ -48,7 +48,7 @@ jobs:
               * Unzip the zip file.
               * Open the index.html file in your browser.
             - There are templates that you can use with our app, they are in the found in templates.zip file.
-            - They need to be unzipped in the same folder the jar file is in.
+            - They need to be unzipped in a templates folder that must be in the same folder the jar file is in.
           draft: false
           prerelease: false
 
