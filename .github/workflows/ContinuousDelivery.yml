@@ -54,7 +54,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: target/static-jar-with-dependencies.jar
-          asset_name: static.jar
+          asset_name: static-jar-with-dependencies.jar
           asset_content_type: application/java-archive
 
       - name: Upload Release Asset (JAVADOC)
