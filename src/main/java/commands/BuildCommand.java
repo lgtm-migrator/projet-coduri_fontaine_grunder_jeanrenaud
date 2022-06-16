@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,25 +100,28 @@ public class BuildCommand implements Runnable {
             Markdown2htmlParser parser = Markdown2htmlParser.getInstance();
             ParserResult result = parser.convertMarkdownToHTML(reader);
 
-            String output = TemplateEngine.getInstance().applyMapToTemplate(new HashMap<>() {
-                {
-                    put("site", configModel);
-                    put("page", result.getHeaders());
-                    put("content", result.getHtml());
-                    put("menu", new HashMap<String, String>() {
-                        {
-                            put("links", markdownLinks);
-                        }
-                    });
-                }
-            }, Paths.get("." + File.separator + "templates" + File.separator + "template.html"));
+            Map<String, Object> template = new HashMap<>();
+            Map<String, String> menu = new HashMap<>();
+            menu.put("links", markdownLinks);
+            template.put("site", configModel);
+            template.put("page", result.getHeaders());
+            template.put("content", result.getHtml());
+            template.put("menu", menu);
+            String output = TemplateEngine.getInstance()
+                    .applyMapToTemplate(
+                            template,
+                            Paths.get("." + File.separator + "templates" + File.separator + "template.html")
+                    );
 
 
 
             // Create the new file in the build folder
             File newFile = new File(buildFolder.getAbsolutePath() + File.separator + relativizedPath);
             newFile.getParentFile().mkdirs();
-            newFile.createNewFile();
+
+            if (newFile.createNewFile()) {
+                System.err.println("File already exist, not overwriting !");
+            }
 
             try (FileWriter writer = new FileWriter(newFile, StandardCharsets.UTF_8)) {
                 writer.write(output);
