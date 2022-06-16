@@ -1,0 +1,69 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: Continuous Delivery
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup JDK 1.11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+
+      - name: Build
+        run: |
+          mvn clean install -DskipTests
+
+      - name: JavaDoc
+        run: |
+          mvn javadoc:javadoc
+          zip -r target/site/apidocs.zip target/site/apidocs
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            How to use :
+            - Download the jar file from this release.
+            - Run the jar file in a terminal, the output will be a help menu.
+            - To run a specific command, type the jar file name followed by the command.
+            - Further information can be found in the README.md and the user manual files.
+            - A java doc file is also included in the release. 
+              * Download the zip file from this release.
+              * Unzip the zip file.
+              * Open the index.html file in your browser.
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset (JAR)
+        id: upload-release-asset-jar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: target/static.jar
+          asset_name: static.jar
+          asset_content_type: application/java-archive
+
+      - name: Upload Release Asset (JAVADOC)
+        id: upload-release-asset-javadoc
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: target/site/apidocs.zip
+          asset_name: javadoc.zip
+          asset_content_type: application/zip
