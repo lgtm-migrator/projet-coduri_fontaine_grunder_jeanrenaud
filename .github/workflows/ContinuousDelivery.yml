@@ -25,6 +25,10 @@ jobs:
           mvn javadoc:javadoc
           zip -r target/site/apidocs.zip target/site/apidocs
 
+      - name: templateZip
+        run: |
+          zip -r templates.zip templates
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -43,6 +47,8 @@ jobs:
               * Download the zip file from this release.
               * Unzip the zip file.
               * Open the index.html file in your browser.
+            - There are templates that you can use with our app, they are in the found in templates.zip file.
+            - They need to be unzipped in the same folder the jar file is in.
           draft: false
           prerelease: false
 
@@ -66,4 +72,15 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: target/site/apidocs.zip
           asset_name: javadoc.zip
+          asset_content_type: application/zip
+
+      - name: Upload Release Asset (TEMPLATES)
+        id: upload-release-asset-templates
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: templates.zip
+          asset_name: templates.zip
           asset_content_type: application/zip
