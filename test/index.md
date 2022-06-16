@@ -1,5 +1,6 @@
-titre: Mon premier article
-auteur: Bertil Chapuis
+---
+title: Mon premier article
+author: Bertil Chapuis
 date: 2021-03-10
 ---
 # Mon premier article
