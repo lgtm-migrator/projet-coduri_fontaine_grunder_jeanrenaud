@@ -1,9 +1,8 @@
+titre: Mon premier article
+auteur: Bertil Chapuis
+date: 2021-03-10
 ---
-title: THE WEBSITE
-subtitle: A test website
-author: Luca Coduri
----
-# Alert
-The Alert and inlineAlert components are used to display messages to the user.
-# Default
-The `Alert` component can have a `title` and `children`. There are props to configure the icon and the border on the left.
+# Mon premier article
+## Mon sous-titre
+Le contenu de mon article.
+![Une image](./image.png)
