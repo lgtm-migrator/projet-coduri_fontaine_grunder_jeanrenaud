@@ -77,6 +77,7 @@ Paramètres :
 * Position du dossier de configuration init
 
 Crée un dossier build à la même position que le dossier de configuration fourni en paramètre. Ce dossier comporte les sources du site generées à partir des fichiers de configurations et du contenu dans le dossier de configuration.
+La commande requiert un dossier template avec au minimum un fichier template.html à la racine du .jar
 
 Le site géneré affiche le contenu à partir de l'arborescence de contenu, naviguable à l'aide d'un menu.
 ##### Clean
