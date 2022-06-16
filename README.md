@@ -54,10 +54,42 @@ Cette section est desinée au utilisateur aux utilisateurs de notre application.
 ```console
 foo@bar:~$ java -jar static.jar
 ```
-* Pour lancer une commande spécifique, il faut executer le fichier jar en fournissant le nom de la commande à executer en paramètre :
+* Pour lancer une commande spécifique, executez le fichier jar en fournissant le nom de la commande à executer en paramètre :
 ```console
 foo@bar:~$ java -jar static.jar version
 ```
+
+#### Commandes
+Ce chapitre a pour but d'expliquer l'utilité des différentes commandes disponible et comment les utiliser.
+
+##### Version
+Affiche la version de l'application.
+##### Init
+Paramètres :
+* Dossier dans lequel le dossier init sera crée.
+
+Initialise un dossier init à la position spécifiée en paramètre. Ce dossier contient tous les fichiers d'initialisation.
+
+Les fichiers sont les suivants :
+* une page d'exemple au format markdown
+* un fichier de configuration au format YAML
+##### Build
+Paramètres :
+* Position du dossier de configuration init
+
+Crée un dossier build à la même position que le dossier de configuration fourni en paramètre. Ce dossier comporte les sources du site generées à partir des fichiers de configurations et du contenu dans le dossier de configuration.
+
+Le site géneré affiche le contenu à partir de l'arborescence de contenu, naviguable à l'aide d'un menu.
+##### Clean
+Paramètres :
+* Chemin vers le dosser à nettoyer
+
+Nettoie le dossier spécifier en supprimant le dossier build.
+##### Serve
+Paramètres :
+* Chemin vers le dossier où déployer le site
+
+Déploie le site sur un serveur HTTP à l'adresse localhost au port 8080.
 ## [License Apache 2.0](https://choosealicense.com/licenses/apache-2.0/)
 
 ## [Code de conduite](CODE_OF_CONDUCT.md)
